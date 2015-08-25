@@ -185,7 +185,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="1.-Import-required-libraries">1. Import required libraries<a class="anchor-link" href="#1.-Import-required-libraries">&#182;</a></h2>
+<h2 id="1.a.-Import-required-libraries">1.a. Import required libraries<a class="anchor-link" href="#1.a.-Import-required-libraries">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -214,6 +214,31 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">str_to_date</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s">&quot;%d-%m-%Y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.b.-Constants-and-recurrent-costs">1.b. Constants and recurrent costs<a class="anchor-link" href="#1.b.-Constants-and-recurrent-costs">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">RECURRENT</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;rent&#39;</span><span class="p">:</span> <span class="mf">620.0</span><span class="p">,</span>
+    <span class="s">&#39;charges&#39;</span><span class="p">:</span> <span class="mf">120.0</span><span class="p">,</span>
+<span class="p">}</span>
 </pre></div>
 
 </div>
@@ -335,6 +360,29 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">list_non_membership_rows</span><span class="p">():</span>
+    <span class="s">&quot;Yield rows that do not match a membership, parsed.&quot;</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">list_all_rows</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;description&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;Virement en votre faveur&quot;</span><span class="p">:</span>
+            <span class="c"># Probably expense, skip it</span>
+            <span class="k">yield</span> <span class="n">row</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;communication1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;+++&#39;</span><span class="p">):</span>
+            <span class="c"># Probably not a membership, skip it</span>
+            <span class="k">yield</span> <span class="n">row</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -343,19 +391,6 @@ div#notebook {
 <h2 id="3.-Extract-transfer-info-per-member">3. Extract transfer info per member<a class="anchor-link" href="#3.-Extract-transfer-info-per-member">&#182;</a></h2>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -512,6 +547,43 @@ div#notebook {
 <span class="nb">print</span><span class="p">(</span><span class="s">&quot;This is&quot;</span><span class="p">,</span> <span class="n">total_membership_in</span> <span class="o">/</span> <span class="n">duration</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="s">&quot;per day&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s">&quot;     or&quot;</span><span class="p">,</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">total_membership_in</span> <span class="o">/</span> <span class="n">duration</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="s">&quot;per month&quot;</span> <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s">&quot;This represents&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">total_membership_in</span> <span class="o">/</span> <span class="n">total_in</span><span class="p">,</span> <span class="s">&quot;% of all income&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.c.-Money-in-from-other-sources">5.c. Money in from other sources<a class="anchor-link" href="#5.c.-Money-in-from-other-sources">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span class="n">cash_from_cassa</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">rest</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">list_non_membership_rows</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;value_date&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">continue</span>
+    
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;communication1&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;CASH FROM KASSA&#39;</span><span class="p">:</span>
+        <span class="n">cash_from_cassa</span> <span class="o">+=</span> <span class="n">row</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;amount&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s">&#39;communication1&#39;</span><span class="p">]])</span>
+        
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">&#39;Cash from kassa&#39;</span><span class="p">,</span> <span class="n">cash_from_cassa</span><span class="p">,</span> <span class="s">&quot;or per day&quot;</span><span class="p">,</span> <span class="n">cash_from_cassa</span> <span class="o">/</span> <span class="n">duration</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>
 </pre></div>
 
 </div>
